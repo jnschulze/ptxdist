@@ -24,7 +24,7 @@ HOST_WAYLAND_CONF_TOOL	:= autoconf
 HOST_WAYLAND_CONF_OPT	:= \
 	$(HOST_AUTOCONF) \
 	--disable-static \
-	--enable-scanner \
+	--disable-dtd-validation \
 	--disable-documentation
 
 # vim: syntax=make
