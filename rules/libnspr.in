@@ -1,0 +1,9 @@
+## SECTION=system_libraries
+
+config LIBNSPR
+	tristate
+	prompt "libnspr"
+	help
+	  Netscape Portable Runtime (NSPR) provides a platform-neutral API for system level and libc like functions.
+
+# vim: ft=kconfig noet tw=72

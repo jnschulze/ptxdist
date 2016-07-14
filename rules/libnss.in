@@ -1,0 +1,9 @@
+## SECTION=system_libraries
+
+config LIBNSS
+	tristate
+	select LIBNSPR
+	select SQLITE
+	prompt "libnss"
+	help
+	  "Network Security Services (NSS)"
