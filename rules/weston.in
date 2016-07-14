@@ -5,6 +5,7 @@ config WESTON
 	select LIBC_UTIL
 	select PIXMAN
 	select WAYLAND
+	select WAYLAND_PROTOCOLS
 	select LIBXKBCOMMON
 	select LIBJPEG
 	select LIBPNG

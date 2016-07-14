@@ -16,8 +16,8 @@ PACKAGES-$(PTXCONF_LIBEPOXY) += libepoxy
 #
 # Paths and names
 #
-LIBEPOXY_VERSION	:= 1.2
-LIBEPOXY_MD5		:= 7f109968e610eff9c8b035a32e29f49c
+LIBEPOXY_VERSION	:= 1.3.1
+LIBEPOXY_MD5		:= e224e7cc872464bcb804d329d002ed00
 LIBEPOXY		:= libepoxy-$(LIBEPOXY_VERSION)
 LIBEPOXY_SUFFIX		:= tar.bz2
 LIBEPOXY_URL		:= https://github.com/anholt/libepoxy.git;tag=v$(LIBEPOXY_VERSION)
@@ -38,7 +38,6 @@ LIBEPOXY_CONF_ENV	:= \
 LIBEPOXY_CONF_TOOL	:= autoconf
 LIBEPOXY_CONF_OPT	:= \
 	$(CROSS_AUTOCONF_USR) \
-	--disable-strict-compilation \
 	$(GLOBAL_LARGE_FILE_OPTION)
 
 # ----------------------------------------------------------------------------

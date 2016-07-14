@@ -19,8 +19,8 @@ PACKAGES-$(PTXCONF_MESALIB) += mesalib
 #
 # Paths and names
 #
-MESALIB_VERSION	:= 11.2.2
-MESALIB_MD5	:= e0ec73f7273662a74366f0d76dd19ac3
+MESALIB_VERSION	:= 12.0.1
+MESALIB_MD5	:= 972fd5ad5a63aeabf173fb9adefc6522
 MESALIB		:= mesa-$(MESALIB_VERSION)
 MESALIB_SUFFIX	:= tar.xz
 MESALIB_URL	:= ftp://ftp.freedesktop.org/pub/mesa/$(MESALIB_VERSION)/$(MESALIB).$(MESALIB_SUFFIX)
@@ -28,7 +28,7 @@ MESALIB_SOURCE	:= $(SRCDIR)/$(MESALIB).$(MESALIB_SUFFIX)
 MESALIB_DIR	:= $(BUILDDIR)/Mesa-$(MESALIB_VERSION)
 MESALIB_LICENSE	:= MIT
 MESALIB_LICENSE_FILES := \
-	file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de
+	file://docs/license.html;md5=899fbe7e42d494c7c8c159c7001693d5
 
 # ----------------------------------------------------------------------------
 # Prepare
@@ -71,10 +71,14 @@ MESALIB_LIBS-$(PTXCONF_MESALIB_GLES1)	+= libGLESv1_CM
 MESALIB_LIBS-$(PTXCONF_MESALIB_GLES2)	+= libGLESv2
 MESALIB_LIBS-$(PTXCONF_MESALIB_EGL)	+= libEGL
 MESALIB_LIBS-$(PTXCONF_MESALIB_GBM)	+= libgbm
+MESALIB_LIBS-$(PTXCONF_MESALIB_OSMESA)	+= libOSMesa
 
 MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_X11)	+= x11
 MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_DRM)	+= drm
 MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_WAYLAND)	+= wayland
+
+
+MESALIB_EGL_PLATFORMS-y += surfaceless
 
 MESALIB_LIBS-$(PTXCONF_MESALIB_EGL_WAYLAND)	+= libwayland-egl
 
@@ -94,9 +98,9 @@ MESALIB_CONF_OPT	:= \
 	--$(call ptx/endis, PTXCONF_MESALIB_GLES1)-gles1 \
 	--$(call ptx/endis, PTXCONF_MESALIB_GLES2)-gles2 \
 	--enable-dri \
-	--disable-dri3 \
+	--$(call ptx/endis, PTXCONF_MESALIB_DRI3)-dri3 \
 	--$(call ptx/endis, PTXCONF_MESALIB_GLX)-glx \
-	--disable-osmesa \
+	--$(call ptx/endis, PTXCONF_MESALIB_OSMESA)-osmesa \
 	--disable-gallium-osmesa \
 	--$(call ptx/endis, PTXCONF_MESALIB_EGL)-egl \
 	--disable-xa \
@@ -108,8 +112,6 @@ MESALIB_CONF_OPT	:= \
 	--disable-omx \
 	--disable-opencl \
 	--disable-opencl-icd \
-	--disable-xlib-glx \
-	--disable-r600-llvm-compiler \
 	--disable-gallium-tests \
 	--disable-shader-cache \
 	--enable-shared-glapi \
@@ -131,7 +133,7 @@ MESALIB_CONF_OPT	:= \
 
 $(STATEDIR)/mesalib.compile:
 	@$(call targetinfo)
-	cp $(PTXCONF_SYSROOT_HOST)/bin/mesa/glsl_compiler $(MESALIB_DIR)/src/compiler/
+	cp $(PTXCONF_SYSROOT_HOST)/bin/mesa/glsl_compiler $(MESALIB_DIR)/src/compiler/glsl/
 	@$(call world/compile, MESALIB)
 	@$(call touch)
 

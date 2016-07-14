@@ -50,8 +50,6 @@ HOST_MESALIB_CONF_OPT	:= \
 	--disable-omx \
 	--disable-opencl \
 	--disable-opencl-icd \
-	--disable-xlib-glx \
-	--disable-r600-llvm-compiler \
 	--disable-gallium-tests \
 	--disable-shader-cache \
 	--disable-shared-glapi \

@@ -17,8 +17,8 @@ PACKAGES-$(PTXCONF_WESTON) += weston
 #
 # Paths and names
 #
-WESTON_VERSION	:= 1.7.0
-WESTON_MD5	:= 1fde8a44f48cd177438522850d6ba4be
+WESTON_VERSION	:= 1.11.0
+WESTON_MD5	:= bc6f90a2039163804aecfa663b69c4c2
 WESTON		:= weston-$(WESTON_VERSION)
 WESTON_SUFFIX	:= tar.xz
 WESTON_URL	:= http://wayland.freedesktop.org/releases/$(WESTON).$(WESTON_SUFFIX)
@@ -56,7 +56,6 @@ WESTON_CONF_OPT		:= \
 	--$(call ptx/endis, PTXCONF_WESTON_GL)-simple-egl-clients \
 	--enable-clients \
 	--enable-resize-optimization \
-	--disable-weston-launch \
 	--enable-fullscreen-shell \
 	--disable-colord \
 	--disable-dbus \
@@ -64,8 +63,10 @@ WESTON_CONF_OPT		:= \
 	--$(call ptx/endis, PTXCONF_WESTON_WCAP_TOOLS)-wcap-tools \
 	--disable-libunwind \
 	--disable-demo-clients-install \
-	--with-cairo=$(call ptx/ifdef, PTXCONF_WESTON_GL,glesv2,image)
-
+	--with-cairo=$(call ptx/ifdef, PTXCONF_WESTON_GL,glesv2,image) \
+	--disable-junit-xml \
+	--disable-weston-launch \
+	--disable-systemd-login
 
 # ----------------------------------------------------------------------------
 # Target-Install

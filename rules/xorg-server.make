@@ -16,8 +16,8 @@ PACKAGES-$(PTXCONF_XORG_SERVER) += xorg-server
 #
 # Paths and names
 #
-XORG_SERVER_VERSION	:= 1.17.2
-XORG_SERVER_MD5		:= 397e405566651150490ff493e463f1ad
+XORG_SERVER_VERSION	:= 1.18.3
+XORG_SERVER_MD5		:= 043d720bf2472a65bb8f0daa97f83dfa
 XORG_SERVER		:= xorg-server-$(XORG_SERVER_VERSION)
 XORG_SERVER_SUFFIX	:= tar.bz2
 XORG_SERVER_URL		:= $(call ptx/mirror, XORG, individual/xserver/$(XORG_SERVER).$(XORG_SERVER_SUFFIX))
@@ -63,9 +63,7 @@ XORG_SERVER_CONF_OPT	= \
 	$(GLOBAL_LARGE_FILE_OPTION) \
 	--disable-debug \
 	--disable-sparkle \
-	--disable-install-libxf86config \
 	--$(call ptx/endis, PTXCONF_XORG_SERVER_OPT_AIGLX)-aiglx \
-	--$(call ptx/endis, PTXCONF_XORG_SERVER_OPT_GLX_TLS)-glx-tls \
 	--$(call ptx/endis, PTXCONF_XORG_SERVER_EXT_COMPOSITE)-composite \
 	--$(call ptx/endis, PTXCONF_XORG_SERVER_EXT_SHM)-mitshm \
 	--$(call ptx/endis, PTXCONF_XORG_SERVER_EXT_XRES)-xres \
