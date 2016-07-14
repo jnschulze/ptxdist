@@ -1,0 +1,17 @@
+--- a/third_party/webrtc/media/base/mediachannel.h	2016-07-04 12:00:00.435051469 +0200
++++ b/third_party/webrtc/media/base/mediachannel.h	2016-07-14 04:18:11.041888601 +0200
+@@ -72,12 +72,14 @@
+ static std::string VectorToString(const std::vector<T>& vals) {
+     std::ostringstream ost;
+     ost << "[";
++/*
+     for (size_t i = 0; i < vals.size(); ++i) {
+       if (i > 0) {
+         ost << ", ";
+       }
+       ost << vals[i].ToString();
+     }
++*/
+     ost << "]";
+     return ost.str();
+ }

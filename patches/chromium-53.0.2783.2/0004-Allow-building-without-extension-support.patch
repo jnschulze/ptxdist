@@ -1,0 +1,133 @@
+--- a/BUILD.gn	2016-07-04 11:59:50.827248206 +0200
++++ b/BUILD.gn	2016-07-13 18:34:17.992977769 +0200
+@@ -201,8 +201,6 @@
+       "//chrome/test:interactive_ui_tests",
+       "//chrome/test:sync_integration_tests",
+       "//chrome/test/chromedriver:chromedriver_unittests",
+-      "//extensions:extensions_browsertests",
+-      "//extensions:extensions_unittests",
+       "//gpu/gles2_conform_support:gles2_conform_test",
+       "//gpu/khronos_glcts_support:khronos_glcts_test",
+       "//jingle:jingle_unittests",
+@@ -300,7 +298,12 @@
+   deps += root_extra_deps
+ 
+   if (enable_extensions) {
+-    deps += [ "//extensions/shell:app_shell_unittests" ]
++    deps += [
++      "//extensions:extensions_browsertests",
++      "//extensions:extensions_unittests",
++      "//extensions/shell:app_shell",
++      "//extensions/shell:app_shell_unittests",
++    ]
+   }
+ 
+   if (enable_media_router) {
+@@ -321,14 +324,18 @@
+ 
+   if (use_aura) {
+     deps += [
+-      "//ash:ash_shell_with_content",
+-      "//ash:ash_unittests",
+       "//ui/app_list:app_list_unittests",
+       "//ui/app_list/presenter:app_list_presenter_unittests",
+       "//ui/aura:aura_unittests",
+       "//ui/aura:demo",
+       "//ui/wm:wm_unittests",
+     ]
++    if (use_ash) {
++      deps += [
++        "//ash:ash_shell_with_content",
++        "//ash:ash_unittests",
++      ]
++    }
+   }
+ 
+   if (use_ozone) {
+@@ -543,10 +550,6 @@
+       ]
+     }
+ 
+-    if (enable_extensions) {
+-      deps += [ "//extensions/shell:app_shell" ]
+-    }
+-
+     if (enable_nacl) {
+       deps += [ "//components/nacl/loader:nacl_loader_unittests" ]
+
+
+
+ 
+--- a/chrome/browser/devtools/BUILD.gn	2016-07-04 11:57:20.238364411 +0200
++++ b/chrome/browser/devtools/BUILD.gn	2016-07-13 18:57:16.333859177 +0200
+@@ -77,13 +77,15 @@
+       "//chrome:resources",
+       "//chrome:strings",
+       "//chrome/app/theme:theme_resources",
+-      "//chrome/common/extensions/api",
+       "//components/devtools_http_handler",
+       "//net:http_server",
+       "//skia",
+       "//third_party/icu",
+       "//third_party/leveldatabase",
+     ]
++    if (enable_extensions) {
++      deps += [ "//chrome/common/extensions/api" ]
++    }
+     sources += [
+       "chrome_devtools_discovery_provider.cc",
+       "chrome_devtools_discovery_provider.h",
+
+
+
+
+--- a/chrome/test/BUILD.gn	2016-07-04 11:59:51.235239847 +0200
++++ b/chrome/test/BUILD.gn	2016-07-13 18:55:53.411491564 +0200
+@@ -433,7 +433,9 @@
+     # TODO(rockot) bug 505926: The chrome_extensions_interactive_uitests target
+     # should be deleted and this line removed. See the
+     # chrome_extensions_interactive_uitests target for more.
+-    deps += [ "//extensions:chrome_extensions_interactive_uitests" ]
++    if(enable_extensions) {
++      deps += [ "//extensions:chrome_extensions_interactive_uitests" ]
++    }
+ 
+     # Runtime dependencies
+     data_deps += [
+@@ -974,7 +976,6 @@
+       "//chrome:strings",
+       "//chrome/browser",
+       "//chrome/browser/resources:extension_resource_demo",
+-      "//chrome/common/extensions/api",
+       "//chrome/renderer",
+       "//components/autofill/content/browser:risk_proto",
+       "//components/autofill/content/renderer:test_support",
+@@ -994,7 +995,6 @@
+       "//device/bluetooth:mocks",
+       "//device/serial:test_support",
+       "//device/usb:test_support",
+-      "//extensions/common/api",
+       "//google_apis:test_support",
+       "//media",
+       "//media/base:test_support",
+@@ -1023,10 +1023,19 @@
+       "//v8",
+     ]
+ 
++    if (enable_extensions) {
++      deps += [
++        "//chrome/common/extensions/api",
++        "//extensions/common/api",
++      ]
++    }
++
+     # TODO(rockot) bug 505926: The chrome_extensions_browsertests target should
+     # be deleted and this line removed. See the chrome_extensions_browsertests
+     # target for more.
+-    deps += [ "//extensions:chrome_extensions_browsertests" ]
++    if (enable_extensions) {
++      deps += [ "//extensions:chrome_extensions_browsertests" ]
++    }
+ 
+     # Runtime dependencies
+     data_deps += [

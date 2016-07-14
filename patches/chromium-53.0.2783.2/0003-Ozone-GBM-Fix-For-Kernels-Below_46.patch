@@ -1,0 +1,18 @@
+--- a/ui/ozone/platform/drm/common/client_native_pixmap_dmabuf.cc	2016-06-27 20:32:36.795370288 +0200
++++ b/ui/ozone/platform/drm/common/client_native_pixmap_dmabuf.cc	2016-06-29 17:29:59.561980646 +0200
+@@ -12,7 +12,6 @@
+ #include "base/process/memory.h"
+ #include "base/trace_event/trace_event.h"
+ 
+-#if defined(OS_CHROMEOS)
+ // TODO(vignatti): replace the local definitions below with #include
+ // <linux/dma-buf.h> once kernel version 4.6 becomes widely used.
+ #include <linux/types.h>
+@@ -29,7 +28,6 @@
+ #define LOCAL_DMA_BUF_BASE 'b'
+ #define LOCAL_DMA_BUF_IOCTL_SYNC \
+   _IOW(LOCAL_DMA_BUF_BASE, 0, struct local_dma_buf_sync)
+-#endif
+ 
+ namespace ui {
+ 

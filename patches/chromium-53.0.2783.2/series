@@ -1,0 +1,7 @@
+0001-Remove-hard-coded-values-for-CC-and-CXX.patch
+0002-Remove-accelerated-Canvas-support-from-blacklist.patch
+0003-Ozone-GBM-Fix-For-Kernels-Below_46.patch
+0004-Allow-building-without-extension-support.patch
+0005-Remove-empty-includes-in-pkgconfig-script.patch
+0006-Quickndirty-webrtc-fix.patch
+0007-Allow-setting-of-toolchain-prefix.patch

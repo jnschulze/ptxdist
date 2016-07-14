@@ -1,0 +1,53 @@
+--- a/build/toolchain/linux/BUILD.gn	2016-07-04 11:57:19.590377967 +0200
++++ b/build/toolchain/linux/BUILD.gn	2016-07-14 15:19:52.042594450 +0200
+@@ -5,20 +5,39 @@
+ import("//build/config/sysroot.gni")
+ import("//build/toolchain/gcc_toolchain.gni")
+ 
++declare_args() {
++  toolchain_prefix = ""
++}
++
+ clang_toolchain("clang_arm") {
+   toolchain_cpu = "arm"
+   toolchain_os = "linux"
+-  toolprefix = "arm-linux-gnueabihf-"
++
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "arm-linux-gnueabihf-"
++  }
+ }
+ 
+ clang_toolchain("clang_arm64") {
+   toolchain_cpu = "arm64"
+   toolchain_os = "linux"
+-  toolprefix = "aarch64-linux-gnu-"
++
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "aarch64-linux-gnu-"
++  }
+ }
+ 
+ gcc_toolchain("arm") {
+-  toolprefix = "arm-linux-gnueabihf-"
++
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "arm-linux-gnueabihf-"
++  }
+ 
+   cc = "${toolprefix}gcc"
+   cxx = "${toolprefix}g++"
+@@ -27,6 +46,7 @@
+   ld = cxx
+   readelf = "${toolprefix}readelf"
+   nm = "${toolprefix}nm"
++  strip = "${toolprefix}strip"
+ 
+   toolchain_cpu = "arm"
+   toolchain_os = "linux"
