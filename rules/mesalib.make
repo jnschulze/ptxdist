@@ -73,12 +73,10 @@ MESALIB_LIBS-$(PTXCONF_MESALIB_EGL)	+= libEGL
 MESALIB_LIBS-$(PTXCONF_MESALIB_GBM)	+= libgbm
 MESALIB_LIBS-$(PTXCONF_MESALIB_OSMESA)	+= libOSMesa
 
-MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_X11)	+= x11
-MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_DRM)	+= drm
-MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_WAYLAND)	+= wayland
-
-
-MESALIB_EGL_PLATFORMS-y += surfaceless
+MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_X11)		+= x11
+MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_DRM)		+= drm
+MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_WAYLAND)		+= wayland
+MESALIBS_EGL_PLATFORMS-$(PTXCONF_MESALIB_EGL_SURFACELESS)	+= surfaceless
 
 MESALIB_LIBS-$(PTXCONF_MESALIB_EGL_WAYLAND)	+= libwayland-egl
 
@@ -125,7 +123,7 @@ MESALIB_CONF_OPT	:= \
 	--with-gallium-drivers=$(subst $(space),$(comma),$(MESALIB_GALLIUM_DRIVERS-y)) \
 	--with-dri-driverdir=/usr/lib/dri \
 	--with-dri-drivers=$(subst $(space),$(comma),$(MESALIB_DRI_DRIVERS-y)) \
-	--with-egl-platforms="$(MESALIBS_EGL_PLATFORMS-y)"
+	--with-egl-platforms=$(subst $(space),$(comma),$(MESALIBS_EGL_PLATFORMS-y))
 
 # ----------------------------------------------------------------------------
 # Compile

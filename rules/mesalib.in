@@ -152,6 +152,10 @@ config MESALIB_EGL_WAYLAND
 	bool
 	prompt "Wayland"
 
+config MESALIB_EGL_SURFACELESS
+	bool
+	prompt "Surfaceless"
+
 endif
 endif
 
