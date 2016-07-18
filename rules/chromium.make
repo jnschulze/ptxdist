@@ -303,8 +303,7 @@ ifeq ($(PTXCONF_CHROMIUM_SHARED),y)
 
 # Fix for ozone-gbm:
 else ifeq ($(PTXCONF_CHROMIUM_OZONE_GBM),y)
-	$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/libminigbm.so, /usr/lib/chromium/libminigbm.so); 
-
+	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/libminigbm.so, /usr/lib/chromium/libminigbm.so)
 endif
 
 	@$(call install_finish, chromium)
