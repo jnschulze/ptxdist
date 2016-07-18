@@ -4,6 +4,7 @@ menuconfig CHROMIUM
 	tristate
 	prompt "Chromium Browser"
 	select HOST_DEPOT_TOOLS
+	select GCCLIBS_ATOMIC
 	select LIBNSS
 	select GLIB
 	select FREETYPE

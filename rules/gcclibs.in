@@ -35,4 +35,10 @@ config GCCLIBS_GCJ
 	  Installs the GNU Java Library
 	  libgcj
 
+config GCCLIBS_ATOMIC
+	bool "libatomic"
+	select GCCLIBS
+	help
+	  Install libatomic.so
+
 endmenu
