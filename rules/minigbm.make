@@ -44,7 +44,6 @@ $(STATEDIR)/minigbm.get:
 
 	git clone --depth 1 $(MINIGBM_URL) $(MINIGBM_DIR)
 
-
 	@$(call touch)
 
 # ----------------------------------------------------------------------------

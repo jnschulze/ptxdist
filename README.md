@@ -8,3 +8,4 @@ Fork of http://www.pengutronix.de/software/ptxdist/, containing additional packa
 * Chromium Browser
 * libnspr
 * libnss
+* minigbm
