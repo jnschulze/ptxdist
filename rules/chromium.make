@@ -143,7 +143,7 @@ endif
 
 # GBM
 ifdef PTXCONF_CHROMIUM_OZONE_GBM
-	CHROMIUM_DEFINES += ozone_platform_gbm=true
+	CHROMIUM_DEFINES += ozone_platform_gbm=true use_system_minigbm=true
 	CHROMIUM_TARGETS += ui/ozone/platform/drm:gbm
 endif
 
@@ -209,11 +209,12 @@ $(STATEDIR)/chromium.get:
 $(STATEDIR)/chromium.extract:
 	@$(call targetinfo)
 
-	@rm -rf $(CHROMIUM_DIR) && \
-	cp -r $(CHROMIUM_SRCDIR) $(CHROMIUM_DIR)
+	@$(call clean, $(CHROMIUM_DIR))
+
+	@mkdir -p $(CHROMIUM_DIR) && cp -r $(CHROMIUM_SRCDIR)/* $(CHROMIUM_DIR)
 
 	@cd $(CHROMIUM_DIR)/src && \
-	QUILT_PATCHES=$(PTXDIST_WORKSPACE)/patches/$(CHROMIUM) quilt push -a || true
+	QUILT_PATCHES=$(PTXDIST_TOPDIR)/patches/$(CHROMIUM) quilt push -a || true
 
 	@$(call touch)
 
@@ -301,10 +302,7 @@ ifeq ($(PTXCONF_CHROMIUM_SHARED),y)
                                 /usr/lib/chromium/lib/$$file); \
                 done
 
-# Fix for ozone-gbm:
-else ifeq ($(PTXCONF_CHROMIUM_OZONE_GBM),y)
-	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/libminigbm.so, /usr/lib/chromium/libminigbm.so)
-endif
-
 	@$(call install_finish, chromium)
 	@$(call touch)
+
+# vim: syntax=make
