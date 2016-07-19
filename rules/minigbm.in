@@ -1,0 +1,43 @@
+## SECTION=multimedia_libs
+
+menuconfig MINIGBM
+	tristate
+	prompt "minigbm                       "
+
+if MINIGBM
+
+comment "drivers"
+
+config MINIGBM_EXYNOS
+	bool
+	prompt "exynos"
+
+config MINIGBM_GMA500
+	bool
+	prompt "gma500"
+
+config MINIGBM_I915
+	bool
+	prompt "i915"
+
+config MINIGBM_MARVELL
+	bool
+	prompt "marvell"
+
+config MINIGBM_MEDIATEK
+	bool
+	prompt "mediatek"
+
+config MINIGBM_ROCKCHIP
+	bool
+	prompt "rockchip"
+
+config MINIGBM_TEGRA
+	bool
+	prompt "tegra"
+
+config MINIGBM_VC4
+	bool
+	prompt "vc4"
+
+endif
