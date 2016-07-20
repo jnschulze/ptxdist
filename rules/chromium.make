@@ -301,6 +301,7 @@ ifeq ($(PTXCONF_CHROMIUM_SHARED),y)
                         $(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/lib/$$file,\
                                 /usr/lib/chromium/lib/$$file); \
                 done
+endif
 
 	@$(call install_finish, chromium)
 	@$(call touch)
