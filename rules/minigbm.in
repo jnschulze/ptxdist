@@ -3,6 +3,7 @@
 menuconfig MINIGBM
 	tristate
 	prompt "minigbm                       "
+	select LIBDRM
 
 if MINIGBM
 
