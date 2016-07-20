@@ -2,7 +2,7 @@
 
 menuconfig CHROMIUM
 	tristate
-	prompt "Chromium Browser"
+	prompt "Chromium Browser              "
 	select HOST_DEPOT_TOOLS
 	select GCCLIBS_ATOMIC
 	select LIBNSS
@@ -10,7 +10,6 @@ menuconfig CHROMIUM
 	select FREETYPE
 	select FONTCONFIG
 	select DBUS
-	select LIBPCRE
 	select MESALIB
 	select MINIGBM			if CHROMIUM_OZONE_GBM
 	select WAYLAND			if CHROMIUM_OZONE_WAYLAND
