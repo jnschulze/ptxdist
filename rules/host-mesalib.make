@@ -59,9 +59,11 @@ HOST_MESALIB_CONF_OPT	:= \
 	--disable-glx-tls \
 	--disable-llvm-shared-libs \
 	--disable-gallium-llvm \
+	--disable-libglvnd \
 	--with-sha1= \
 	--with-gallium-drivers= \
-	--with-dri-drivers=
+	--with-dri-drivers= \
+	--without-vulkan-drivers
 
 $(STATEDIR)/host-mesalib.install:
 	@$(call targetinfo)
