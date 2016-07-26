@@ -33,6 +33,24 @@ config CHROMIUM_SHARED
 	bool
 	prompt "Enable dynamic linking of codebase"
 
+
+
+comment "Targets"
+
+config CHROMIUM_BROWSER
+	bool
+	prompt "browser"
+
+config CHROMIUM_CONTENTSHELL
+	bool
+	prompt "content_shell"
+
+config CHROMIUM_APPSHELL
+	bool
+	prompt "app_shell"
+
+
+
 comment "Ozone Backends"
 
 config CHROMIUM_OZONE_GBM

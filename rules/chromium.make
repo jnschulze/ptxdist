@@ -75,11 +75,6 @@ else
 endif
 
 
-#
-# Targets
-#
-CHROMIUM_TARGETS := content/shell:content_shell sandbox/linux:chrome_sandbox
-
 # 
 # Build Options
 #
@@ -99,7 +94,6 @@ CHROMIUM_DEFINES := \
 	enable_webrtc=false \
 	enable_media_router=false \
 	disable_ftp_support=true \
-	enable_extensions=false \
 	enable_session_service=false \
 	enable_supervised_users=false \
 	enable_google_now=false \
@@ -117,7 +111,6 @@ CHROMIUM_DEFINES := \
 	use_glib=false \
 	use_gio=false \
 	use_gconf=false \
-	use_dbus=false \
 	use_libpci=false \
 	use_kerberos=false \
 	use_libjpeg_turbo=true \
@@ -139,42 +132,57 @@ ifdef PTXCONF_CHROMIUM_SHARED
 	CHROMIUM_DEFINES += is_component_build=true
 endif
 
+#
+# Targets
+#
+CHROMIUM_TARGETS-y := sandbox/linux:chrome_sandbox
+
+CHROMIUM_TARGETS-$(PTXCONF_CHROMIUM_BROWSER)		+= chrome
+CHROMIUM_TARGETS-$(PTXCONF_CHROMIUM_APPSHELL)		+= app_shell
+CHROMIUM_TARGETS-$(PTXCONF_CHROMIUM_CONTENTSHELL)	+= content/shell:content_shell
+
+ifneq (,$(filter y,$(PTXCONF_CHROMIUM_BROWSER) $(PTXCONF_CHROMIUM_APPSHELL)))
+	CHROMIUM_DEFINES += enable_extensions=true use_dbus=true
+else
+	CHROMIUM_DEFINES += enable_extensions=false use_dbus=false
+endif
+
 
 
 # GBM
 ifdef PTXCONF_CHROMIUM_OZONE_GBM
 	CHROMIUM_DEFINES += ozone_platform_gbm=true use_system_minigbm=true
-	CHROMIUM_TARGETS += ui/ozone/platform/drm:gbm
+	CHROMIUM_TARGETS-y += ui/ozone/platform/drm:gbm
 endif
 
 # EGL
 ifdef PTXCONF_CHROMIUM_OZONE_EGL
 	CHROMIUM_DEFINES += ozone_platform_egl=true
-	CHROMIUM_TARGETS += ui/ozone/platform/egl:egl
+	CHROMIUM_TARGETS-y += ui/ozone/platform/egl:egl
 endif
 
 # eglest
 ifdef PTXCONF_CHROMIUM_OZONE_EGLTEST
         CHROMIUM_DEFINES += ozone_platform_egltest=true
-        CHROMIUM_TARGETS += ui/ozone/platform/egltest:egltest
+        CHROMIUM_TARGETS-y += ui/ozone/platform/egltest:egltest
 endif
 
 # X11
 ifdef PTXCONF_CHROMIUM_OZONE_X11
 	CHROMIUM_DEFINES += ozone_platform_x11=true
-	CHROMIUM_TARGETS += ui/ozone/platform/x11:x11
+	CHROMIUM_TARGETS-y += ui/ozone/platform/x11:x11
 endif
 
 # Wayland
 ifdef PTXCONF_CHROMIUM_OZONE_WAYLAND
 	CHROMIUM_DEFINES += ozone_platform_wayland=true use_wayland_egl=true
-	CHROMIUM_TARGETS += ui/ozone/platform/wayland:wayland
+	CHROMIUM_TARGETS-y += ui/ozone/platform/wayland:wayland
 endif
 
 # Caca
 ifdef PTXCONF_CHROMIUM_OZONE_CACA
 	CHROMIUM_DEFINES += ozone_platform_caca=true
-	CHROMIUM_TARGETS += ui/ozone/platform/caca:caca
+	CHROMIUM_TARGETS-y += ui/ozone/platform/caca:caca
 endif
 
 
@@ -250,7 +258,7 @@ $(STATEDIR)/chromium.compile:
 	@$(call targetinfo)
 
 	@cd $(CHROMIUM_DIR)/src && \
-		$(HOST_DEPOT_TOOLS_DIR)/ninja -v -C $(CHROMIUM_OUTDIR) $(CHROMIUM_TARGETS)
+		$(HOST_DEPOT_TOOLS_DIR)/ninja -v -C $(CHROMIUM_OUTDIR) $(CHROMIUM_TARGETS-y)
 
 	@$(call touch)
 
@@ -278,7 +286,18 @@ $(STATEDIR)/chromium.targetinstall:
 	@$(call install_fixup, chromium,DESCRIPTION,missing)
 
 	@$(call install_copy, chromium, 0, 0, 0755, /usr/lib/chromium)
+
+ifeq ($(PTXCONF_CHROMIUM_BROWSER),y)
+	@$(call install_copy, chromium, 0, 0, 0755, $(CHROMIUM_OUTDIR)/chrome, /usr/lib/chromium/chrome)	
+endif
+
+ifeq ($(PTXCONF_CHROMIUM_APPSHELL),y)
+	@$(call install_copy, chromium, 0, 0, 0755, $(CHROMIUM_OUTDIR)/app_shell, /usr/lib/chromium/app_shell)
+endif
+
+ifeq ($(PTXCONF_CHROMIUM_CONTENTSHELL),y)
 	@$(call install_copy, chromium, 0, 0, 0755, $(CHROMIUM_OUTDIR)/content_shell, /usr/lib/chromium/content_shell)
+endif
 
 	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/icudtl.dat, /usr/lib/chromium/icudtl.dat)
 
@@ -293,6 +312,10 @@ $(STATEDIR)/chromium.targetinstall:
 # UI Resources
 	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/content_shell.pak, /usr/lib/chromium/content_shell.pak)
 	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/ui_test.pak, /usr/lib/chromium/ui_test.pak)
+
+ifneq (,$(filter y,$(PTXCONF_CHROMIUM_BROWSER) $(PTXCONF_CHROMIUM_APPSHELL)))
+	@$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/extensions_shell_and_test.pak, /usr/lib/chromium/extensions_shell_and_test.pak)
+endif
 
 # Shared Libraries
 ifeq ($(PTXCONF_CHROMIUM_SHARED),y)
