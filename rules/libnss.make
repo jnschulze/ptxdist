@@ -31,14 +31,6 @@ LIBNSS_LICENSE	:= MPL
 
 LIBNSS_CROSS_ENV := $(CROSS_ENV)
 
-#LIBNSS_CFLAGS := \
-#	-I$(LIBNSS_DIR)/nss/lib/util \
-#	-I$(LIBNSS_DIR)/nss/lib/freebl \
-#	-I$(LIBNSS_DIR)/nss/lib/freebl/ecl \
-##	-I$(LIBNSS_DIR)/nss/lib/dbm/include \
-#	-I$(LIBNSS_DIR)/nss/lib/base \
-#	-Wno-overflow -Wno-missing-braces
-
 LIBNSS_CFLAGS := \
 	-Wno-overflow -Wno-missing-braces
 
