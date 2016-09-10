@@ -16,8 +16,8 @@ PACKAGES-$(PTXCONF_LIBNSS) += libnss
 #
 # Paths and names
 #
-LIBNSS_VERSION	:= 3.25
-LIBNSS_MD5	:= 23169c406adc8ac3672d34bf9ea2433d
+LIBNSS_VERSION	:= 3.26
+LIBNSS_MD5	:= b71ab412cf07af436726679b204b0777
 LIBNSS		:= libnss-$(LIBNSS_VERSION)
 LIBNSS_SUFFIX	:= tar.gz
 LIBNSS_URL	:= https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_$(subst .,_,$(LIBNSS_VERSION))_RTM/src/nss-$(LIBNSS_VERSION).tar.gz
@@ -31,7 +31,16 @@ LIBNSS_LICENSE	:= MPL
 
 LIBNSS_CROSS_ENV := $(CROSS_ENV)
 
-LIBNSS_CFLAGS := -Wno-overflow -Wno-missing-braces
+#LIBNSS_CFLAGS := \
+#	-I$(LIBNSS_DIR)/nss/lib/util \
+#	-I$(LIBNSS_DIR)/nss/lib/freebl \
+#	-I$(LIBNSS_DIR)/nss/lib/freebl/ecl \
+##	-I$(LIBNSS_DIR)/nss/lib/dbm/include \
+#	-I$(LIBNSS_DIR)/nss/lib/base \
+#	-Wno-overflow -Wno-missing-braces
+
+LIBNSS_CFLAGS := \
+	-Wno-overflow -Wno-missing-braces
 
 LIBNSS_BUILD_VARS = \
 	SOURCE_MD_DIR=$(LIBNSS_DIR)/dist \
@@ -49,8 +58,8 @@ LIBNSS_BUILD_VARS = \
 	TARGETCCC="$(CROSS_CXX) $(LIBNSS_CFLAGS)" \
 	TARGETRANLIB="$(CROSS_RANLIB)" \
 	OS_ARCH="Linux" \
-	OS_RELEASE="4.4" \
-	OS_TEST="arm" \
+	OS_RELEASE="$(PTXCONF_KERNEL_VERSION)" \
+	OS_TEST="$(PTXCONF_ARCH_STRING)" \
 	TARGET_OPTIMIZER="" \
 	NATIVE_FLAGS="" \
 	CHECKLOC=""
@@ -87,9 +96,8 @@ $(STATEDIR)/libnss.prepare:
 $(STATEDIR)/libnss.compile:
 	@$(call targetinfo)
 
-	cd $(LIBNSS_DIR)/nss && \
+	@cd $(LIBNSS_DIR)/nss && \
 	$(LIBNSS_CROSS_ENV) $(MAKE) all $(LIBNSS_BUILD_VARS)
-
 	@$(call touch)
 
 $(STATEDIR)/libnss.install:

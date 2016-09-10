@@ -1,0 +1,32 @@
+--- a/nss/lib/freebl/Makefile	2016-08-05 17:43:39.000000000 +0200
++++ b/nss/lib/freebl/Makefile	2016-09-10 11:44:54.469982261 +0200
+@@ -236,10 +236,12 @@
+     #ECL_USE_FP = 1
+ endif
+ ifeq ($(CPU_ARCH),arm)
+-    DEFINES += -DMP_ASSEMBLY_MULTIPLY -DMP_ASSEMBLY_SQUARE 
+-    DEFINES += -DMP_USE_UINT_DIGIT
+-    DEFINES += -DSHA_NO_LONG_LONG # avoid 64-bit arithmetic in SHA512
+-    MPI_SRCS += mpi_arm.c
++    ifndef USE_64
++        DEFINES += -DMP_ASSEMBLY_MULTIPLY -DMP_ASSEMBLY_SQUARE 
++        DEFINES += -DMP_USE_UINT_DIGIT
++        DEFINES += -DSHA_NO_LONG_LONG # avoid 64-bit arithmetic in SHA512
++        MPI_SRCS += mpi_arm.c
++    endif
+ endif
+ ifeq ($(CPU_ARCH),ppc)
+ ifdef USE_64
+--- a/nss/lib/freebl/mpi/mpi.c	2016-08-05 17:43:39.000000000 +0200
++++ b/nss/lib/freebl/mpi/mpi.c	2016-09-10 11:49:33.104401129 +0200
+@@ -12,8 +12,8 @@
+ #include <c_asm.h>
+ #endif
+ 
+-#if defined(__arm__) && \
+-    ((defined(__thumb__) && !defined(__thumb2__)) || defined(__ARM_ARCH_3__))
++#if defined(__aarch64__) || (defined(__arm__) && \
++    ((defined(__thumb__) && !defined(__thumb2__)) || defined(__ARM_ARCH_3__)))
+ /* 16-bit thumb or ARM v3 doesn't work inlined assember version */
+ #undef MP_ASSEMBLY_MULTIPLY
+ #undef MP_ASSEMBLY_SQUARE
