@@ -59,4 +59,10 @@ config GCCLIBS_LIBUBSAN
 	  Installs the UndefinedBehaviorSanitizer runtime library
 	  libubsan
 
+config GCCLIBS_ATOMIC
+	bool "libatomic"
+	select GCCLIBS
+	help
+	  Install libatomic.so
+
 endmenu
