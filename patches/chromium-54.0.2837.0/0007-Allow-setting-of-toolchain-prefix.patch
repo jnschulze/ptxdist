@@ -1,0 +1,97 @@
+--- a/build/toolchain/linux/BUILD.gn	2016-08-30 16:12:02.807239238 +0200
++++ b/build/toolchain/linux/BUILD.gn	2016-09-07 18:52:01.356335422 +0200
+@@ -5,8 +5,17 @@
+ import("//build/config/sysroot.gni")
+ import("//build/toolchain/gcc_toolchain.gni")
+ 
++declare_args() {
++  toolchain_prefix = ""
++}
++
+ clang_toolchain("clang_arm") {
+-  toolprefix = "arm-linux-gnueabihf-"
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "arm-linux-gnueabihf-"
++  }
++
+   toolchain_args = {
+     current_cpu = "arm"
+     current_os = "linux"
+@@ -14,7 +23,12 @@
+ }
+ 
+ clang_toolchain("clang_arm64") {
+-  toolprefix = "aarch64-linux-gnu-"
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "aarch64-linux-gnu-"
++  }
++
+   toolchain_args = {
+     current_cpu = "arm64"
+     current_os = "linux"
+@@ -22,7 +36,11 @@
+ }
+ 
+ gcc_toolchain("arm") {
+-  toolprefix = "arm-linux-gnueabihf-"
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "arm-linux-gnueabihf-"
++  }
+ 
+   cc = "${toolprefix}gcc"
+   cxx = "${toolprefix}g++"
+@@ -39,6 +57,28 @@
+   }
+ }
+ 
++gcc_toolchain("arm64") {
++  if(toolchain_prefix != "") {
++    toolprefix = toolchain_prefix
++  } else {
++    toolprefix = "aarch64-linux-gnu-"
++  }
++
++  cc = "${toolprefix}gcc"
++  cxx = "${toolprefix}g++"
++
++  ar = "${toolprefix}ar"
++  ld = cxx
++  readelf = "${toolprefix}readelf"
++  nm = "${toolprefix}nm"
++
++  toolchain_args = {
++    current_cpu = "arm64"
++    current_os = "linux"
++    is_clang = false
++  }
++}
++
+ clang_toolchain("clang_x86") {
+   toolchain_args = {
+     current_cpu = "x86"
+@@ -140,3 +180,19 @@
+     use_goma = false
+   }
+ }
++
++gcc_toolchain("x64_v8_arm64") {
++  cc = "gcc"
++  cxx = "g++"
++
++  readelf = "readelf"
++  nm = "nm"
++  ar = "ar"
++  ld = cxx
++
++  toolchain_args = {
++    current_cpu = "arm64"
++    current_os = "linux"
++    is_clang = false
++  }
++}

@@ -1,0 +1,11 @@
+--- a/build/toolchain/gcc_toolchain.gni	2016-08-30 16:15:33.935058489 +0200
++++ b/build/toolchain/gcc_toolchain.gni	2016-09-07 18:48:42.224252795 +0200
+@@ -265,7 +265,7 @@
+       depsformat = "gcc"
+       description = "ASM {{output}}"
+       outputs = [
+-        "$object_subdir/{{source_name_part}}.o",
++        "$object_subdir/{{source_name_part}}_asm.o",
+       ]
+     }
+ 

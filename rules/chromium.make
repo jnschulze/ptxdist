@@ -12,11 +12,15 @@
 #
 PACKAGES-$(PTXCONF_CHROMIUM) += chromium
 
-CHROMIUM_VERSION	:= 53.0.2783.2
+CHROMIUM_VERSION	:= 54.0.2837.0
 CHROMIUM		:= chromium-$(CHROMIUM_VERSION)
 CHROMIUM_DIR		:= $(BUILDDIR)/$(CHROMIUM)
 CHROMIUM_SRCDIR		:= $(SRCDIR)/$(CHROMIUM)
 CHROMIUM_OUTDIR		:= $(CHROMIUM_DIR)/src/_out/Release
+
+# Help Chromium 54 find libatomic.so
+PTXDIST_CROSS_LDFLAGS +=\
+	-Wl,-rpath-link=$(shell $(CROSS_CC) -print-sysroot)/../$(PTXCONF_GNU_TARGET)/lib
 
 #
 # Platform specific switches
@@ -26,11 +30,6 @@ ifeq ($(PTXCONF_GNU_TARGET), aarch64-v8a-linux-gnu)
 
  CHROMIUM_ARCH := armv8-a
  CHROMIUM_TUNE := cortex-a53
- CHROMIUM_FPU  := fp-armv8
- CHROMIUM_FLOATABI := hard
- CHROMIUM_ARM_VERSION := 8
- CHROMIUM_ARM_NEON := true
- CHROMIUM_ARM_THUMB := true
 
 else ifeq ($(PTXCONF_GNU_TARGET), arm-v8a-linux-gnueabihf)
 
@@ -45,13 +44,7 @@ else ifeq ($(PTXCONF_GNU_TARGET), arm-v8a-linux-gnueabihf)
 else ifeq ($(PTXCONF_GNU_TARGET), arm-v7a-linux-gnueabihf)
 
  CHROMIUM_ARCH := armv7-a
-
- ifeq ($(PTXCONF_PLATFORM), tx6-pong)
-  CHROMIUM_TUNE := cortex-a9
- else
-  CHROMIUM_TUNE := cortex-a7
- endif
-
+ CHROMIUM_TUNE := cortex-a7
  CHROMIUM_FPU  := neon
  CHROMIUM_FLOATABI := hard
  CHROMIUM_ARM_VERSION := 7
@@ -81,15 +74,10 @@ endif
 
 # custom_toolchain=\"foo:arm\"
 CHROMIUM_DEFINES := \
-	is_clang=false \
 	toolchain_prefix=\"$(PTXCONF_GNU_TARGET)-\" \
 	use_sysroot=false \
-	target_cpu=\"arm\" \
-	arm_version=$(CHROMIUM_ARM_VERSION) \
-	arm_use_thumb=$(CHROMIUM_ARM_THUMB) \
-	arm_use_neon=$(CHROMIUM_ARM_NEON) \
-	arm_tune=\"$(CHROMIUM_TUNE)\" \
-	arm_float_abi=\"$(CHROMIUM_FLOATABI)\" \
+	target_cpu=\"$(PTXCONF_ARCH_STRING)\" \
+	is_clang=false \
 	is_desktop_linux=false \
 	enable_webrtc=false \
 	enable_media_router=false \
@@ -105,6 +93,9 @@ CHROMIUM_DEFINES := \
 	enable_mdns=false \
 	enable_captive_portal_detection=false \
 	enable_nacl=false \
+	enable_webvr=false \
+	enable_browser_cdms=false \
+	use_allocator=\"none\" \
 	use_pulseaudio=false \
 	use_alsa=false \
 	use_cups=false \
@@ -121,11 +112,20 @@ CHROMIUM_DEFINES := \
 	toolkit_views=false \
 	safe_browsing_mode=0 \
 	proprietary_codecs=false \
+	media_use_libvpx=false \
 	linux_use_bundled_binutils=false \
 	remove_webcore_debug_symbols=true \
 	symbol_level=1 \
 	treat_warnings_as_errors=false
 
+ifndef PTXCONF_ARCH_ARM64
+CHROMIUM_DEFINES += \
+	arm_version=$(CHROMIUM_ARM_VERSION) \
+	arm_use_thumb=$(CHROMIUM_ARM_THUMB) \
+	arm_use_neon=$(CHROMIUM_ARM_NEON) \
+	arm_float_abi=\"$(CHROMIUM_FLOATABI)\" \
+	arm_tune=\"$(CHROMIUM_TUNE)\"
+endif
 
 # Build shared libraries?
 ifdef PTXCONF_CHROMIUM_SHARED
@@ -245,7 +245,10 @@ ifeq ($(PTXCONF_CHROMIUM_OZONE_EGL),y)
 endif
 
 	@cd $(CHROMIUM_DIR)/src && \
-	$(CHROMIUM_ENV) $(HOST_DEPOT_TOOLS_DIR)/gn gen $(CHROMIUM_OUTDIR) --args="$(CHROMIUM_DEFINES)"
+	$(CHROMIUM_ENV) $(HOST_DEPOT_TOOLS_DIR)/gn gen $(CHROMIUM_OUTDIR) --args="$(CHROMIUM_DEFINES)" || true
+
+#	@cd $(CHROMIUM_DIR)/src && \
+#	$(CHROMIUM_ENV) $(HOST_DEPOT_TOOLS_DIR)/gn args --list $(CHROMIUM_OUTDIR) > $(PTXDIST_WORKSPACE)/_notes/chromium_flags.txt
 
 	@$(call touch)
 

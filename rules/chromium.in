@@ -11,6 +11,8 @@ menuconfig CHROMIUM
 	select FONTCONFIG
 	select DBUS
 	select MESALIB
+	#select XORG
+	#select XORG_LIB_X11
 	select MINIGBM			if CHROMIUM_OZONE_GBM
 	select WAYLAND			if CHROMIUM_OZONE_WAYLAND
 	#select PLATFORM_GLES		if CHROMIUM_OZONE_EGL
