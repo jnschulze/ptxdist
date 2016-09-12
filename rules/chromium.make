@@ -20,7 +20,7 @@ CHROMIUM_OUTDIR		:= $(CHROMIUM_DIR)/src/_out/Release
 
 # Help Chromium 54 find libatomic.so
 PTXDIST_CROSS_LDFLAGS +=\
-	-Wl,-rpath-link=$(shell $(CROSS_CC) -print-sysroot)/../$(PTXCONF_GNU_TARGET)/lib
+       -Wl,-rpath-link=$(ROOTDIR)/lib
 
 #
 # Platform specific switches
@@ -322,11 +322,11 @@ endif
 
 # Shared Libraries
 ifeq ($(PTXCONF_CHROMIUM_SHARED),y)
-	@cd $(CHROMIUM_OUTDIR)/lib && \
-                for file in *.so*; do \
-                        $(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/lib/$$file,\
-                                /usr/lib/chromium/lib/$$file); \
-                done
+	@cd $(CHROMIUM_OUTDIR) && \
+		for file in *.so; do \
+			$(call install_copy, chromium, 0, 0, 0644, $(CHROMIUM_OUTDIR)/$$file,\
+				/usr/lib/chromium/$$file); \
+		done
 endif
 
 	@$(call install_finish, chromium)
