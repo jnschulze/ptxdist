@@ -1,0 +1,10 @@
+## SECTION=multimedia_tools
+
+menuconfig FRECON
+	tristate
+	prompt "frecon                        "
+	select LIBDRM
+	select UDEV
+	select LIBPNG
+	select LIBTSM
+
