@@ -1,0 +1,11 @@
+--- a/build/config/features.gni	2016-08-30 16:12:02.763240107 +0200
++++ b/build/config/features.gni	2016-09-30 17:57:58.430835501 +0200
+@@ -177,7 +177,7 @@
+ enable_chromevox_next = false
+ 
+ # Use brlapi from brltty for braille display support.
+-use_brlapi = is_chromeos
++use_brlapi = false
+ 
+ enable_configuration_policy = !is_ios
+ 

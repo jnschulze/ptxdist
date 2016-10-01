@@ -71,14 +71,11 @@ endif
 # 
 # Build Options
 #
-
-# custom_toolchain=\"foo:arm\"
 CHROMIUM_DEFINES := \
 	toolchain_prefix=\"$(PTXCONF_GNU_TARGET)-\" \
 	use_sysroot=false \
 	target_cpu=\"$(PTXCONF_ARCH_STRING)\" \
 	is_clang=false \
-	is_desktop_linux=false \
 	enable_webrtc=false \
 	enable_media_router=false \
 	disable_ftp_support=true \
@@ -132,6 +129,11 @@ ifdef PTXCONF_CHROMIUM_SHARED
 	CHROMIUM_DEFINES += is_component_build=true
 endif
 
+# Pretend ChromeOS build
+ifdef PTXCONF_CHROMIUM_CROS
+	CHROMIUM_DEFINES += target_os=\"chromeos\"
+endif
+
 #
 # Targets
 #
@@ -153,6 +155,11 @@ endif
 ifdef PTXCONF_CHROMIUM_OZONE_GBM
 	CHROMIUM_DEFINES += ozone_platform_gbm=true use_system_minigbm=true
 	CHROMIUM_TARGETS-y += ui/ozone/platform/drm:gbm
+
+ifdef PTXCONF_CHROMIUM_DRM_ATOMIC
+	CHROMIUM_DEFINES += use_drm_atomic=true
+endif
+
 endif
 
 # EGL

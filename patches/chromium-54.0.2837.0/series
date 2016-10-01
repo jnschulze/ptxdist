@@ -2,3 +2,7 @@
 0006-Quickndirty-webrtc-fix.patch
 0007-Allow-setting-of-toolchain-prefix.patch
 0008-Duplicate-object-file-fix.patch
+0009-Force-display-init-on-non-cros-platforms.patch
+0010-Chromium-os-app-shell-fix.patch
+0011-Disable-brlapi.patch
+0012-Sandbox-compilation-bug-workaround.patch

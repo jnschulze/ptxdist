@@ -1,0 +1,11 @@
+--- a/ui/display/chromeos/display_configurator.cc	2016-08-30 16:12:35.802587665 +0200
++++ b/ui/display/chromeos/display_configurator.cc	2016-09-30 17:26:15.959920465 +0200
+@@ -467,7 +467,7 @@
+     : state_controller_(NULL),
+       mirroring_controller_(NULL),
+       is_panel_fitting_enabled_(false),
+-      configure_display_(base::SysInfo::IsRunningOnChromeOS()),
++      configure_display_(true),
+       current_display_state_(MULTIPLE_DISPLAY_STATE_INVALID),
+       current_power_state_(chromeos::DISPLAY_POWER_ALL_ON),
+       requested_display_state_(MULTIPLE_DISPLAY_STATE_INVALID),

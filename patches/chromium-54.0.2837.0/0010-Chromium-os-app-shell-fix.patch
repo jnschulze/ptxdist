@@ -1,0 +1,26 @@
+--- a/chrome/test/BUILD.gn	2016-08-30 16:15:34.651044100 +0200
++++ b/chrome/test/BUILD.gn	2016-09-30 17:50:23.651733575 +0200
+@@ -664,10 +664,10 @@
+       }
+     }  # enable_notifications
+ 
+-    if (!use_aura || is_chromeos) {
+-      sources -=
+-          [ "../../ui/views/corewm/desktop_capture_controller_unittest.cc" ]
+-    }
++    #if (!use_aura || is_chromeos) {
++    #  sources -=
++    #      [ "../../ui/views/corewm/desktop_capture_controller_unittest.cc" ]
++    #}
+   }
+ 
+   if (enable_app_list && use_ash) {
+@@ -1466,7 +1466,7 @@
+         "../browser/extensions/api/cloud_print_private/cloud_print_private_apitest.cc",
+         "../browser/printing/print_preview_dialog_controller_browsertest.cc",
+         "../browser/printing/print_preview_pdf_generated_browsertest.cc",
+-        "../browser/service_process/service_process_control_browsertest.cc",
++        #"../browser/service_process/service_process_control_browsertest.cc",
+         "../browser/ui/webui/print_preview/print_preview_ui_browsertest.cc",
+         "data/webui/print_preview.cc",
+         "data/webui/print_preview.h",

@@ -1,0 +1,28 @@
+--- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2016-08-30 16:12:10.543086475 +0200
++++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc	2016-09-30 18:14:40.455212076 +0200
+@@ -135,13 +135,20 @@
+   const uint64_t kGlibcPthreadFlags =
+       CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_THREAD |
+       CLONE_SYSVSEM | CLONE_SETTLS | CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID;
+-  const BoolExpr glibc_test = flags == kGlibcPthreadFlags;
++  //const BoolExpr glibc_test = flags == kGlibcPthreadFlags;
+ 
+-  const BoolExpr android_test =
+-      AnyOf(flags == kAndroidCloneMask, flags == kObsoleteAndroidCloneMask,
+-            flags == kGlibcPthreadFlags);
++  //const BoolExpr android_test =
++  //    AnyOf(flags == kAndroidCloneMask, flags == kObsoleteAndroidCloneMask,
++  //          flags == kGlibcPthreadFlags);
+ 
+-  return If(IsAndroid() ? android_test : glibc_test, Allow())
++  //return If(IsAndroid() ? android_test : glibc_test, Allow())
++  //    .ElseIf((flags & (CLONE_VM | CLONE_THREAD)) == 0, Error(EPERM))
++  //    .Else(CrashSIGSYSClone());
++
++  return If(IsAndroid() ? AnyOf(flags == kAndroidCloneMask,
++                                flags == kObsoleteAndroidCloneMask,
++                                flags == kGlibcPthreadFlags)
++                        : flags == kGlibcPthreadFlags, Allow())
+       .ElseIf((flags & (CLONE_VM | CLONE_THREAD)) == 0, Error(EPERM))
+       .Else(CrashSIGSYSClone());
+ }

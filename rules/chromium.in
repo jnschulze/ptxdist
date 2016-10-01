@@ -10,12 +10,11 @@ menuconfig CHROMIUM
 	select FREETYPE
 	select FONTCONFIG
 	select DBUS
+	select BLUEZ			if CHROMIUM_BROWSER
 	select MESALIB
-	#select XORG
-	#select XORG_LIB_X11
 	select MINIGBM			if CHROMIUM_OZONE_GBM
+	select MESALIB_EGL_SURFACELESS	if CHROMIUM_OZONE_GBM
 	select WAYLAND			if CHROMIUM_OZONE_WAYLAND
-	#select PLATFORM_GLES		if CHROMIUM_OZONE_EGL
 	select XORG_LIB_X11		if CHROMIUM_OZONE_X11
 	select XORG_LIB_XI		if CHROMIUM_OZONE_X11
 	select XORG_LIB_XCURSOR		if CHROMIUM_OZONE_X11
@@ -35,6 +34,9 @@ config CHROMIUM_SHARED
 	bool
 	prompt "Enable dynamic linking of codebase"
 
+config CHROMIUM_CROS
+	bool
+	prompt "Enable ChromiumOS-specific features"
 
 
 comment "Targets"
@@ -58,6 +60,13 @@ comment "Ozone Backends"
 config CHROMIUM_OZONE_GBM
 	bool
 	prompt "GBM"
+	select CHROMIUM_CROS
+
+if CHROMIUM_OZONE_GBM
+config CHROMIUM_DRM_ATOMIC
+	bool
+	prompt "Enable atomic modeset/pageflip"
+endif
 
 config CHROMIUM_OZONE_EGL
 	bool
