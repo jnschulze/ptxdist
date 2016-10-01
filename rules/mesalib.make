@@ -55,10 +55,7 @@ endif
 
 MESALIB_GALLIUM_DRIVERS-$(PTXCONF_MESALIB_DRI_NOUVEAU)	+= nouveau
 MESALIB_GALLIUM_DRIVERS-$(PTXCONF_MESALIB_DRI_FREEDRENO)+= freedreno
-ifdef PTXCONF_ARCH_ARM
 MESALIB_GALLIUM_DRIVERS-$(PTXCONF_MESALIB_DRI_VC4)	+= vc4
-endif
-
 MESALIB_GALLIUM_DRIVERS-$(PTXCONF_MESALIB_DRI_SWRAST)	+= swrast
 
 MESALIB_DRI_LIBS-y += \
@@ -89,7 +86,7 @@ MESALIB_CONF_OPT	:= \
 	--enable-shared \
 	--disable-debug \
 	--disable-mangling \
-	--disable-texture-float \
+	--enable-texture-float \
 	--disable-asm \
 	--disable-selinux \
 	--$(call ptx/endis, PTXCONF_MESALIB_OPENGL)-opengl \
@@ -117,7 +114,7 @@ MESALIB_CONF_OPT	:= \
 	--disable-glx-read-only-text \
 	--enable-driglx-direct \
 	--enable-glx-tls \
-	--disable-gallium-llvm \
+	--enable-gallium-llvm \
 	--enable-llvm-shared-libs \
 	--with-sha1= \
 	--with-gallium-drivers=$(subst $(space),$(comma),$(MESALIB_GALLIUM_DRIVERS-y)) \
