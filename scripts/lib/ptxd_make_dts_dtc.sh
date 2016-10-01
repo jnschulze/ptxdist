@@ -26,6 +26,10 @@ ptxd_make_dts_dtb() {
 	    ;;
     esac
 
+    if [ -z "${dts_kernel_arch}" ]; then
+        dts_kernel_arch=$(ptxd_get_ptxconf PTXCONF_KERNEL_ARCH_STRING)
+    fi
+
     if dtc -h 2>&1 | grep -q '^[[:space:]]\+-i\(,.*\)\?$'; then
 	dtc_include="-i $(dirname "${dts}") -i ${dts_kernel_dir}/arch/${dts_kernel_arch}/boot/dts"
 	tmp_dts="${ptx_state_dir}/$(basename "${dts}").tmp"
@@ -52,6 +56,7 @@ ptxd_make_dts_dtb() {
 	-I${dts_kernel_dir}/drivers/of/testcase-data \
 	-I${dts_kernel_dir}/include \
 	-undef -D__DTS__ -x assembler-with-cpp \
+	${dts_flags} \
 	-o ${tmp_dts} \
 	${dts} &&
 

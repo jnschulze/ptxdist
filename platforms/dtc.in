@@ -40,6 +40,12 @@ config DTC_KERNEL
 	default y
 	prompt "use kernel dtc"
 
+config DTC_KERNEL_ARCH
+	string "override dtc kernel arch"
+
+config DTC_FLAGS
+	string "extra flags passed to preprocessor"
+
 config DTC_EXTRA_ARGS
 	string "extra options passed to dtc"
 

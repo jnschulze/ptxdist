@@ -37,7 +37,8 @@ dts/env = \
 	dts_dtb="$(strip $(1))" \
 	dts_dts="$(strip $(2))" \
 	dts_kernel_dir="$(KERNEL_DIR)" \
-	dts_kernel_arch="$(GENERIC_KERNEL_ARCH)"
+	dts_kernel_arch="$(PTXCONF_DTC_KERNEL_ARCH)" \
+	dts_flags="$(PTXCONF_DTC_FLAGS)"
 
 %.dtb: $(STATEDIR)/dtc.install
 	@$(call targetinfo)
