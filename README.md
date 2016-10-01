@@ -5,7 +5,9 @@ Fork of http://www.pengutronix.de/software/ptxdist/, containing additional packa
 
 ## Additional packages
 
-* Chromium Browser
+* Chromium Browser (54.xxx)
 * libnspr
 * libnss
-* minigbm
+* minigbm (Chromium OS GBM implementation)
+* libtsm (terminal emulator state machine library)
+* frecon (Kernel VT console replacement used in the Chrome OS Freon graphics stack)
