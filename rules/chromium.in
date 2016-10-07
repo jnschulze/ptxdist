@@ -39,6 +39,10 @@ config CHROMIUM_CROS
 	prompt "Enable ChromiumOS-specific features"
 
 
+config CHROMIUM_PROPRIETARY_CODECS
+	bool
+	prompt "Enable proprietary codecs"
+
 comment "Targets"
 
 config CHROMIUM_BROWSER

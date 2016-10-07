@@ -108,7 +108,6 @@ CHROMIUM_DEFINES := \
 	ozone_auto_platforms=false \
 	toolkit_views=false \
 	safe_browsing_mode=0 \
-	proprietary_codecs=false \
 	media_use_libvpx=false \
 	linux_use_bundled_binutils=false \
 	remove_webcore_debug_symbols=true \
@@ -132,6 +131,10 @@ endif
 # Pretend ChromeOS build
 ifdef PTXCONF_CHROMIUM_CROS
 	CHROMIUM_DEFINES += target_os=\"chromeos\"
+endif
+
+ifdef PTXCONF_CHROMIUM_PROPRIETARY_CODECS
+	CHROMIUM_DEFINES += proprietary_codecs=true
 endif
 
 #
