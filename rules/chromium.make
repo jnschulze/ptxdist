@@ -36,9 +36,7 @@ else ifeq ($(PTXCONF_GNU_TARGET), arm-v8a-linux-gnueabihf)
  CHROMIUM_ARCH := armv8-a
  CHROMIUM_TUNE := cortex-a53
  CHROMIUM_FPU  := fp-armv8
- CHROMIUM_FLOATABI := hard
  CHROMIUM_ARM_VERSION := 8
- CHROMIUM_ARM_NEON := true
  CHROMIUM_ARM_THUMB := true
 
 else ifeq ($(PTXCONF_GNU_TARGET), arm-v7a-linux-gnueabihf)
@@ -46,25 +44,11 @@ else ifeq ($(PTXCONF_GNU_TARGET), arm-v7a-linux-gnueabihf)
  CHROMIUM_ARCH := armv7-a
  CHROMIUM_TUNE := cortex-a7
  CHROMIUM_FPU  := neon
- CHROMIUM_FLOATABI := hard
  CHROMIUM_ARM_VERSION := 7
- CHROMIUM_ARM_NEON := true
  CHROMIUM_ARM_THUMB := true
 
-else ifeq ($(PTXCONF_GNU_TARGET), arm-1136jfs-linux-gnueabihf)
-
- CHROMIUM_ARCH := armv6j
- CHROMIUM_TUNE := arm1136jf-s
- CHROMIUM_FPU  := vfp
- CHROMIUM_FLOATABI := hard
- CHROMIUM_ARM_VERSION := 6
- CHROMIUM_ARM_NEON := false
- CHROMIUM_ARM_THUMB := false
-
 else
-
  @$(error Unsupported Chromium Platform)
-
 endif
 
 
@@ -118,8 +102,8 @@ ifndef PTXCONF_ARCH_ARM64
 CHROMIUM_DEFINES += \
 	arm_version=$(CHROMIUM_ARM_VERSION) \
 	arm_use_thumb=$(CHROMIUM_ARM_THUMB) \
-	arm_use_neon=$(CHROMIUM_ARM_NEON) \
-	arm_float_abi=\"$(CHROMIUM_FLOATABI)\" \
+	arm_use_neon=true \
+	arm_float_abi=\"hard\" \
 	arm_tune=\"$(CHROMIUM_TUNE)\"
 endif
 
