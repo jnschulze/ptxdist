@@ -114,7 +114,7 @@ endif
 
 # Pretend ChromeOS build
 ifdef PTXCONF_CHROMIUM_CROS
-	CHROMIUM_DEFINES += target_os=\"chromeos\"
+	CHROMIUM_DEFINES += target_os=\"chromeos\" enable_wayland_server=false
 endif
 
 ifdef PTXCONF_CHROMIUM_PROPRIETARY_CODECS
