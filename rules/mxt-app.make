@@ -16,7 +16,7 @@ PACKAGES-$(PTXCONF_MXT_APP) += mxt-app
 #
 # Paths and names
 #
-MXT_APP_VERSION	:= 1.27
+MXT_APP_VERSION := 1.27
 MXT_APP_MD5     := bd7f88a39369ca2b7e43b5be46b3412a
 MXT_APP         := mxt-app-$(MXT_APP_VERSION)
 MXT_APP_SUFFIX  := tar.bz2
