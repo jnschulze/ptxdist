@@ -1,0 +1,7 @@
+## SECTION=multimedia_tools
+
+config MXT_APP
+	tristate
+	prompt "mxt-app"
+	help
+	  Command line utility for maXTouch devices
